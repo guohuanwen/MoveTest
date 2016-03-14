@@ -1,5 +1,6 @@
 package com.bcgtgjyb.autolistview;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,6 +20,7 @@ public class LearnScroller extends LinearLayout{
     private Button button;
     private String TAG = LearnScroller.class.getName();
     private VelocityTracker mVelocityTracker;
+    private ImageMove imageMove;
 
     public LearnScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,11 +37,37 @@ public class LearnScroller extends LinearLayout{
     private void init() {
         LinearLayout.inflate(context, R.layout.learn_scroller, this);
         button = (Button)findViewById(R.id.button);
+        imageMove = (ImageMove) findViewById(R.id.imagemove);
         scroller = new Scroller(context);
 
         if (mVelocityTracker == null){
             mVelocityTracker = VelocityTracker.obtain();
         }
+        post(new Runnable() {
+            @Override
+            public void run() {
+//                MoveUtil.Rotate3dAnimation rotate3dAnimation = MoveUtil.rotation(imageMove, 0, 180, 1000);
+//                imageMove.setAnimation(rotate3dAnimation);
+                AnimatorSet animatorSet = MoveUtil.setRotationY(imageMove, 90, 500);
+                animatorSet.start();
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageMove.setImageResource(R.color.ddd);
+                        MoveUtil.setRotationY(imageMove, 180,500).start();
+                    }
+                },animatorSet.getDuration());
+            }
+        });
+
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                imageMove.smoothScrollBy(-100,-100);
+                AnimatorSet animatorSet = MoveUtil.move(imageMove, 100, 100, 1000);
+                animatorSet.start();
+            }
+        },2000);
     }
 
 
