@@ -1,11 +1,16 @@
 package com.bcgtgjyb.autolistview;
 
 import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
@@ -21,6 +26,7 @@ public class LearnScroller extends LinearLayout{
     private String TAG = LearnScroller.class.getName();
     private VelocityTracker mVelocityTracker;
     private ImageMove imageMove;
+    private ImageMove scaleView;
 
     public LearnScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +44,7 @@ public class LearnScroller extends LinearLayout{
         LinearLayout.inflate(context, R.layout.learn_scroller, this);
         button = (Button)findViewById(R.id.button);
         imageMove = (ImageMove) findViewById(R.id.imagemove);
+        scaleView = (ImageMove) findViewById(R.id.imagescale);
         scroller = new Scroller(context);
 
         if (mVelocityTracker == null){
@@ -54,9 +61,9 @@ public class LearnScroller extends LinearLayout{
                     @Override
                     public void run() {
                         imageMove.setImageResource(R.color.ddd);
-                        MoveUtil.setRotationY(imageMove, 180,500).start();
+                        MoveUtil.setRotationY(imageMove, 180, 500).start();
                     }
-                },animatorSet.getDuration());
+                }, animatorSet.getDuration());
             }
         });
 
@@ -67,7 +74,9 @@ public class LearnScroller extends LinearLayout{
                 AnimatorSet animatorSet = MoveUtil.move(imageMove, 100, 100, 1000);
                 animatorSet.start();
             }
-        },2000);
+        }, 2000);
+
+        initPath();
     }
 
 
@@ -137,5 +146,41 @@ public class LearnScroller extends LinearLayout{
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    private Path clipPath = new Path();
+    private ValueAnimator clipVA;
+    private void initPath(){
+        Log.i(TAG, "initPath: ");
+        clipVA = ValueAnimator.ofInt(0,1000);
+        clipVA.setInterpolator(new LinearInterpolator());
+        clipVA.setDuration(1200);
+        clipVA.start();
+        invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+
+    }
+
+    @Override
+    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        boolean b;
+        if (clipVA != null && clipVA.isRunning()){
+            int param = (Integer)clipVA.getAnimatedValue();
+            clipPath.reset();
+            clipPath.addCircle(getWidth()/2, getHeight()/2, param, Path.Direction.CW);
+            Log.i(TAG, "onDraw: run=" + param + "   getWidth=" + getWidth());
+            canvas.clipPath(clipPath);
+            b = super.drawChild(canvas, child, drawingTime);
+            invalidate();
+        }else {
+            Log.i(TAG, "onDraw: finish");
+            b = super.drawChild(canvas, child, drawingTime);
+            invalidate();
+        }
+        return b;
     }
 }

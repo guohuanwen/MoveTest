@@ -14,5 +14,10 @@
         android:layout_height="100dp"
         android:scaleType="fitCenter"
         android:src="@color/red"/>
+    <com.bcgtgjyb.autolistview.ImageMove
+        android:id="@+id/imagescale"
+        android:layout_width="80dp"
+        android:src="@color/red"
+        android:layout_height="80dp" />
 
 </LinearLayout>

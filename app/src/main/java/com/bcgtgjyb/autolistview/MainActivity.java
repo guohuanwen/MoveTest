@@ -26,33 +26,32 @@ public class MainActivity extends AppCompatActivity {
     private Button mButton;
     private LinearLayout mLinearLayout;
     private TextView head;
-    private String TAG=MainActivity.class.getName();
+    private String TAG = MainActivity.class.getName();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setContentView(R.layout.activity_main);
-        setContentView(new LearnScroller(this));
+        setContentView(R.layout.activity_main);
+//        setContentView(new LearnScroller(this));
 
     }
 
-    private void init(){
-        mListView=(ListView)findViewById(R.id.listView);
-        mTextView=(TextView)findViewById(R.id.textView);
-        mButton=(Button)findViewById(R.id.button);
-        mLinearLayout=(LinearLayout)findViewById(R.id.linear);
+    private void init() {
+        mListView = (ListView) findViewById(R.id.listView);
+        mTextView = (TextView) findViewById(R.id.textView);
+        mButton = (Button) findViewById(R.id.button);
+        mLinearLayout = (LinearLayout) findViewById(R.id.linear);
 
 
-        textList=new ArrayList<String>();
-        for(int i=0;i<100;i++){
-            textList.add("这是第"+i+"条数据");
+        textList = new ArrayList<String>();
+        for (int i = 0; i < 100; i++) {
+            textList.add("这是第" + i + "条数据");
         }
 
 
-
-        head=new TextView(this);
+        head = new TextView(this);
         head.setSingleLine(false);
         head.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
         head.setText("this is my header /n  this is my header /n this is my header  /n " +
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         mListView.addHeaderView(head);
         mListView.setAdapter(new MyListAdapter(this, textList));
-
 
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
     private float lastY;
     private float firstTouch;
     private boolean fisrtMove;
-    private void setTouch(){
+
+    private void setTouch() {
         mButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -109,8 +108,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-}
+    }
 
+
+    private void test(){
+
+    }
 
 
     private void update(float moveY) {
@@ -139,15 +142,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private int headerHeight;
 
-    private void setHeaderHeight(View view){
-        headerHeight=head.getMeasuredHeight();
-        int a=headerHeight-5;
-        if(a>0) {
+    private void setHeaderHeight(View view) {
+        headerHeight = head.getMeasuredHeight();
+        int a = headerHeight - 5;
+        if (a > 0) {
             head.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, headerHeight - 5));
-        }else {
+        } else {
             mListView.removeHeaderView(head);
         }
 
@@ -156,30 +158,25 @@ public class MainActivity extends AppCompatActivity {
 
     private int helloHeight;
 
-    private void setHelloHeight(View view){
-        helloHeight=mLinearLayout.getMeasuredHeight();
-        int a=helloHeight-5;
-        if(a>0) {
-            mLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,a ));
-        }else {
+    private void setHelloHeight(View view) {
+        helloHeight = mLinearLayout.getMeasuredHeight();
+        int a = helloHeight - 5;
+        if (a > 0) {
+            mLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, a));
+        } else {
         }
 
     }
 
 
-
-
-
-
-
-    private class MyListAdapter extends BaseAdapter{
+    private class MyListAdapter extends BaseAdapter {
         private List<String> list;
         private TextView textView;
         private Context context;
 
-        public MyListAdapter(Context c,List l) {
-            this.context=c;
-            this.list=l;
+        public MyListAdapter(Context c, List l) {
+            this.context = c;
+            this.list = l;
         }
 
         @Override
@@ -199,15 +196,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            if(view==null){
-                view=new TextView(context);
+            if (view == null) {
+                view = new TextView(context);
             }
-            if(view instanceof TextView) {
+            if (view instanceof TextView) {
                 ((TextView) view).setText((String) list.get(i));
             }
             return view;
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -23,6 +23,10 @@
         android:text="@string/hello_world" />
 
     </LinearLayout>
+    <com.bcgtgjyb.autolistview.LearnScroller
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    </com.bcgtgjyb.autolistview.LearnScroller>
     <ListView
         android:id="@+id/listView"
         android:layout_weight="1"
