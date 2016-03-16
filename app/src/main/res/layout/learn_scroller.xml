@@ -8,16 +8,15 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <com.bcgtgjyb.autolistview.ImageMove
+    <com.bcgtgjyb.autolistview.WaveView
         android:id="@+id/imagemove"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitCenter"
-        android:src="@color/red"/>
-    <com.bcgtgjyb.autolistview.ImageMove
+        android:background="@color/red"/>
+    <com.bcgtgjyb.autolistview.WaveView
         android:id="@+id/imagescale"
         android:layout_width="80dp"
-        android:src="@color/red"
         android:layout_height="80dp" />
 
 </LinearLayout>

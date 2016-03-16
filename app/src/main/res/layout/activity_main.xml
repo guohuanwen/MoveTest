@@ -14,23 +14,33 @@
             android:id="@+id/button"
             android:text="touch me"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/textView"
         android:layout_weight="0"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="@string/hello_world" />
 
     </LinearLayout>
     <com.bcgtgjyb.autolistview.LearnScroller
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="300dp">
     </com.bcgtgjyb.autolistview.LearnScroller>
+    <com.bcgtgjyb.autolistview.TouchWaveLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <TextView
+            android:text="guohuanwen"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp" />
+    </com.bcgtgjyb.autolistview.TouchWaveLayout>
     <ListView
         android:id="@+id/listView"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+    </ListView>
 
 </LinearLayout>

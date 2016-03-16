@@ -25,8 +25,8 @@ public class LearnScroller extends LinearLayout{
     private Button button;
     private String TAG = LearnScroller.class.getName();
     private VelocityTracker mVelocityTracker;
-    private ImageMove imageMove;
-    private ImageMove scaleView;
+    private WaveView waveView;
+    private WaveView scaleView;
 
     public LearnScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,8 +43,8 @@ public class LearnScroller extends LinearLayout{
     private void init() {
         LinearLayout.inflate(context, R.layout.learn_scroller, this);
         button = (Button)findViewById(R.id.button);
-        imageMove = (ImageMove) findViewById(R.id.imagemove);
-        scaleView = (ImageMove) findViewById(R.id.imagescale);
+        waveView = (WaveView) findViewById(R.id.imagemove);
+        scaleView = (WaveView) findViewById(R.id.imagescale);
         scroller = new Scroller(context);
 
         if (mVelocityTracker == null){
@@ -55,13 +55,13 @@ public class LearnScroller extends LinearLayout{
             public void run() {
 //                MoveUtil.Rotate3dAnimation rotate3dAnimation = MoveUtil.rotation(imageMove, 0, 180, 1000);
 //                imageMove.setAnimation(rotate3dAnimation);
-                AnimatorSet animatorSet = MoveUtil.setRotationY(imageMove, 90, 500);
+                AnimatorSet animatorSet = MoveUtil.setRotationY(waveView, 90, 500);
                 animatorSet.start();
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        imageMove.setImageResource(R.color.ddd);
-                        MoveUtil.setRotationY(imageMove, 180, 500).start();
+                        waveView.setBackgroundResource(R.color.ddd);
+                        MoveUtil.setRotationY(waveView, 180, 500).start();
                     }
                 }, animatorSet.getDuration());
             }
@@ -71,7 +71,7 @@ public class LearnScroller extends LinearLayout{
             @Override
             public void run() {
 //                imageMove.smoothScrollBy(-100,-100);
-                AnimatorSet animatorSet = MoveUtil.move(imageMove, 100, 100, 1000);
+                AnimatorSet animatorSet = MoveUtil.move(waveView, 100, 100, 1000);
                 animatorSet.start();
             }
         }, 2000);
@@ -159,12 +159,9 @@ public class LearnScroller extends LinearLayout{
         invalidate();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
 
 
-    }
-
+    private boolean finshed = false;
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean b;
@@ -179,7 +176,10 @@ public class LearnScroller extends LinearLayout{
         }else {
             Log.i(TAG, "onDraw: finish");
             b = super.drawChild(canvas, child, drawingTime);
-            invalidate();
+            if (!finshed) {
+                invalidate();
+                finshed = true;
+            }
         }
         return b;
     }
