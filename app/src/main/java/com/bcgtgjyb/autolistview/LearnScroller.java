@@ -152,7 +152,7 @@ public class LearnScroller extends LinearLayout{
     private ValueAnimator clipVA;
     private void initPath(){
         Log.i(TAG, "initPath: ");
-        clipVA = ValueAnimator.ofInt(0,1000);
+        clipVA = ValueAnimator.ofInt(0,1500);
         clipVA.setInterpolator(new LinearInterpolator());
         clipVA.setDuration(1200);
         clipVA.start();

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        setContentView(new LearnScroller(this));
 
+        init();
     }
 
     private void init() {
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.textView);
         mButton = (Button) findViewById(R.id.button);
         mLinearLayout = (LinearLayout) findViewById(R.id.linear);
-
 
         textList = new ArrayList<String>();
         for (int i = 0; i < 100; i++) {
@@ -60,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 "this is my header this is my header this is my header this is my header");
 
         mListView.addHeaderView(head);
-        mListView.setAdapter(new MyListAdapter(this, textList));
-
+        final MyListAdapter myListAdapter = new MyListAdapter(this, textList);
+        mListView.setAdapter(myListAdapter);
+        mListView.setOnScrollListener(myListAdapter);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void test(){
+    private void test() {
 
     }
 
@@ -152,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mListView.removeHeaderView(head);
         }
-
 //        head.scrollBy(0,10);
     }
 
@@ -164,15 +164,17 @@ public class MainActivity extends AppCompatActivity {
         if (a > 0) {
             mLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, a));
         } else {
-        }
 
+        }
     }
 
 
-    private class MyListAdapter extends BaseAdapter {
+    private class MyListAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
         private List<String> list;
         private TextView textView;
         private Context context;
+        private float childHeight = 0;
+        private boolean init = false;
 
         public MyListAdapter(Context c, List l) {
             this.context = c;
@@ -202,7 +204,24 @@ public class MainActivity extends AppCompatActivity {
             if (view instanceof TextView) {
                 ((TextView) view).setText((String) list.get(i));
             }
+            if (!init) {
+                init = true;
+                childHeight = view.getHeight();
+            }
             return view;
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            Log.i(TAG, "onScrollStateChanged: ");
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            Log.i(TAG, "onScroll: ");
+            if (visibleItemCount != totalItemCount) {
+
+            }
         }
     }
 
@@ -227,4 +246,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
